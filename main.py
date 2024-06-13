@@ -1,134 +1,136 @@
-from flask import Flask
-from flask import request
-import json
-import api 
 
+from flask_restful import Api, reqparse
+from flask_swagger_ui import get_swaggerui_blueprint
+from flask import Flask, request
+from api import API
 
 app = Flask(__name__)
 
-@app.route('/table', methods=['GET', 'POST'])
+@app.route('/table/', methods=['GET', 'POST'])
 def tablesMethods():
-    db = api.API.Table
+    db = API.Table
     match request.method:
             case 'GET':
-                answer = db.get()['answer']
-                if answer == 'null':
-                    return None
-                else:
-                    return answer
+                return db.get()['answer']
 
             case 'POST':
                 content_type = request.headers.get('Content-Type')
                 if (content_type == 'application/json; charset=utf-8'):
                     json = request.json
-                    return db.add(**json)
+                    return db.add(**json)['answer']
                 else:
-                    return None
+                    return 'Failed'
 
 
-@app.route('/table/', methods=['GET', 'DELETE'])
-def tablesMethodsByIndex():
-    db = api.API.Table
-    id = str(request.args.get('value'))
-
+@app.route('/table/<id>', methods=['GET', 'DELETE'])
+def tablesMethodsByIndex(id):
+    if id == 0:
+        return "Failed"
+    
     match request.method:
             case 'GET':
-                answer = db.get(id=id)['answer']
-                if answer == 'null':
-                    return None
-                else:
-                    return str(answer)
+                return API.Table.getByID(id)['answer']
             case 'DELETE':
-                return db.delete(id=id)
+                return API.Table().delete(id)['answer']
 
-@app.route('/user', methods=['GET', 'POST'])
+
+@app.route('/user/', methods=['GET', 'POST'])
 def userMethods():
-    db = api.API.User
     match request.method:
         case 'GET':
-            answer = db.get()['answer']
-            if answer == 'null':
-                return None
-            else:
-                return answer
+                return API.User.get()['answer']
 
         case 'POST':
             content_type = request.headers.get('Content-Type')
             if (content_type == 'application/json; charset=utf-8'):
                 json = request.json
-                return db.add(**json)
+                return API.User.add(**json)['answer']
             else:
-                return None
+                return "Failed"
 
-@app.route('/user/', methods=['GET', 'DELETE'])
-def userMethodsByIndex():
-    db = api.API.User
-    id = str(request.args.get('value'))
-    match request.method:
-        case 'GET':
-            answer = db.get(id=id)['answer']
-            if answer == 'null':
-                return None
-            else:
-                return str(answer)
-        case 'DELETE':
-            return db.delete(id=id)
-
-@app.route('/booking', methods=['GET', 'POST'])
-def bookingMethods():
-    db = api.API.Booking
-    match request.method:
-        case 'GET':
-            answer = db.get()['answer']
-            if answer == 'null':
-                return None
-            else:
-                return answer
-
-        case 'POST':
-            content_type = request.headers.get('Content-Type')
-            if (content_type == 'application/json; charset=utf-8'):
-                json = request.json
-                return db.add(**json)
-            else:
-                return None
-
-@app.route('/booking/', methods=['GET', 'DELETE'])
-def bookingMethodsByIndex():
-    db = api.API.Booking
-    id = str(request.args.get('value'))
-    match request.method:
-        case 'GET':
-            answer = db.get(id=id)['answer']
-            if answer == 'null':
-                return None
-            else:
-                return str(answer)
-        case 'DELETE':
-            return db.delete(id=id)
-
-@app.route('/user-find/', methods=['GET'])
-def findUser():
-    db = api.API.User
-    id = str(request.args.get('value'))
-    answer = db.find(id)['answer']
+@app.route('/user/<id>', methods=['GET', 'DELETE'])
+def userMethodsByIndex(id):
+    if id == 0:
+        return "Failed"
     
-    if answer == 'null':
-        return None
-    else:
-        test = json.dumps({"value":answer})
-        _test = json.dumps(answer)
-        return str(answer)
+    match request.method:
+        case 'GET':
+                return API.User.getByID(id=id)['answer']
+        case 'DELETE':
+            return API.User.delete(id=id)['answer']
+
+@app.route('/booking/', methods=['GET', 'POST'])
+def bookingMethods():
+    match request.method:
+        case 'GET':
+            return API.Booking.get()['answer']
+
+        case 'POST':
+            content_type = request.headers.get('Content-Type')
+            if (content_type == 'application/json; charset=utf-8'):
+                json = request.json
+                return API.Booking.add(**json)['answer']
+            else:
+                return 'Failed'
+
+@app.route('/booking/<id>', methods=['GET', 'DELETE'])
+def bookingMethodsByIndex(id):
+    if id == 0:
+        return "Failed"
+    
+    match request.method:
+        case 'GET':
+            return API.Booking.getByID(id=id)['answer']
+        case 'DELETE':
+            return API.Booking.delete(id=id)['answer']
+
+@app.route('/user-find/<phone>', methods=['GET'])
+def findUser(phone):
+    if phone == 0:
+        return "Failed"
+    return API.User.find(phone)['answer']
 
 
-@app.route('/booked-dates', methods=['GET'])
+@app.route('/booked-dates/', methods=['GET'])
 def getBookingDates():
-    db = api.API.Booking
-    answer = db.getBookedDates()['answer']
-    if answer == 'null':
-        return None
-    else:
-        return answer
+    return API.Booking.getBookedDates()['answer']
+
+SWAGGER_URL = '/docs'  # URL for exposing Swagger UI (without trailing '/')
+API_URL = '/static/swag.json'  # Our API url (can of course be a local resource)
+
+swaggerui_blueprint = get_swaggerui_blueprint(
+    SWAGGER_URL,  # Swagger UI static files will be mapped to '{SWAGGER_URL}/dist/'
+    API_URL,
+    config={  # Swagger UI config overrides
+        'app_name': "Test application"
+    },
+    # oauth_config={  # OAuth config. See https://github.com/swagger-api/swagger-ui#oauth2-configuration .
+    #    'clientId': "your-client-id",
+    #    'clientSecret': "your-client-secret-if-required",
+    #    'realm': "your-realms",
+    #    'appName': "your-app-name",
+    #    'scopeSeparator': " ",
+    #    'additionalQueryStringParams': {'test': "hello"}
+    # }
+)
+
+app.register_blueprint(swaggerui_blueprint)
 
 
-app.run(host='0.0.0.0', port=8001)
+api = Api(app)
+
+new_user_post_args = reqparse.RequestParser()
+new_user_post_args.add_argument("name",
+                                type=str,
+                                help="You must input a name.",
+                                required=True)
+
+new_user_post_args.add_argument("age",
+                                type=int,
+                                help="You must specify the age for a given name.",
+                                required=False)
+
+
+
+# http://localhost/api/new_user
+app.run(host="0.0.0.0", port=80, debug=True)

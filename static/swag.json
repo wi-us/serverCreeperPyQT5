@@ -1,0 +1,722 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "CREEPER project",
+    "description": "Варавинов Даниил и Годов Кирилл в фильме под названием \"Курсовая\"",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://wiuss.pythonanywhere.com",
+      "description": "MINECRAFT - ЭТО МОЯ ЖИЗНЬ!"
+    }
+  ],
+  "paths": {
+    "/table/": {
+      "get": {
+        "tags": [
+          "Table"
+        ],
+        "description": "returns all registered tables or string \"Failed\"",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "example": {
+                      "id": 1,
+                      "guestCountMax": 4,
+                      "vipStatus": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "Failed"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Table"
+        ],
+        "description": "Add a new Table object or string \"Failed\"",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "guestCountMax": 4,
+                    "vipStatus": false
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "Failed"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/table/{id}": {
+      "get": {
+        "tags": [
+          "Table"
+        ],
+        "description": "returns a table by value or string \"Failed\"",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Integer",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer",
+              "example": 5
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "id": 5,
+                    "guestCountMax": 4,
+                    "vipStatus": true
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "Failed"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Table"
+        ],
+        "description": "Add a new Table object or string \"Failed\"",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Integer",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer",
+              "example": 5
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "Success"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "Failed"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "description": "returns all registered users or string \"Failed\"",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "example": {
+                      "id": 1,
+                      "name": "Даниил",
+                      "surname": "Варавинов",
+                      "phone": 79122706130,
+                      "email": "wius.dv@gmail.com"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "Failed"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "description": "Add a new user object or string \"Failed\"",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Integer",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "example": "Даниил"
+            }
+          },
+          {
+            "name": "surname",
+            "in": "query",
+            "description": "string",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "example": "Варавинов"
+            }
+          },
+          {
+            "name": "phone",
+            "in": "query",
+            "description": "string",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "example": "79122706130"
+            }
+          },
+          {
+            "name": "email",
+            "in": "query",
+            "description": "string",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "example": "wius.dv@gmail.com"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "Success"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "Failed"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/{id}": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "description": "returns a user by value or string \"Failed\"",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Integer",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer",
+              "example": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "id": 1,
+                    "name": "Даниил",
+                    "surname": "Варавинов",
+                    "phone": 79122706130,
+                    "email": "wius.dv@gmail.com"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "Failed"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "User"
+        ],
+        "description": "Add a new user object or string \"Failed\"",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Integer",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer",
+              "example": 5
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "Success"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "Failed"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/booking/": {
+      "get": {
+        "tags": [
+          "Booking"
+        ],
+        "description": "returns all registered bookings or string \"Failed\"",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "example": {
+                      "id": 1,
+                      "table": {
+                        "id": 3,
+                        "guestCountMax": 4,
+                        "vipStatus": true
+                      },
+                      "user": {
+                        "name": "Даниил",
+                        "surname": "Варавинов",
+                        "phone": 79122706130,
+                        "email": "wius.dv@gmail.com"
+                      },
+                      "bookedDate": "2024-06-01 12:00:00",
+                      "guestsCount": 8
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "Failed"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Booking"
+        ],
+        "description": "Add a new booking object or string \"Failed\"",
+        "parameters": [
+          {
+            "name": "user",
+            "in": "query",
+            "description": "user ID integer",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "example": 1
+            }
+          },
+          {
+            "name": "table",
+            "in": "query",
+            "description": "table ID integer",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "example": 4
+            }
+          },
+          {
+            "name": "dateTime",
+            "in": "query",
+            "description": "date and time in string format \"%Y-%m-%d %H:%M:%S\"",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "example": "2024-06-01 12:00:00"
+            }
+          },
+          {
+            "name": "guestsCount",
+            "in": "query",
+            "description": "Integer",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "example": 4
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "Success"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "Failed"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/booking/{id}": {
+      "get": {
+        "tags": [
+          "Booking"
+        ],
+        "description": "returns a booking by value or string \"Failed\"",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Integer",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer",
+              "example": 5
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "id": 1,
+                    "table": {
+                      "id": 3,
+                      "guestCountMax": 4,
+                      "vipStatus": true
+                    },
+                    "user": {
+                      "name": "Даниил",
+                      "surname": "Варавинов",
+                      "phone": 79122706130,
+                      "email": "wius.dv@gmail.com"
+                    },
+                    "bookedDate": "2024-06-01 12:00:00",
+                    "guestsCount": 8
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "Failed"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Booking"
+        ],
+        "description": "Add a new booking object or string \"Failed\"",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Integer",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer",
+              "example": 5
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "Success"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "Failed"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user-find/{phone}": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "description": "returns a user id by phone number by value or string \"Failed\"",
+        "parameters": [
+          {
+            "name": "phone",
+            "in": "path",
+            "description": "Integer",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer",
+              "example": 79122706130
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "id": 1
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "Failed"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/booked-dates/": {
+      "get": {
+        "tags": [
+          "Booking"
+        ],
+        "description": "returns all booked date times and table ID or string \"Failed\"",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "bookedDate": "2024-06-01 12:00:00",
+                    "table": {
+                      "id": 3,
+                      "guestCountMax": 4,
+                      "vipStatus": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "Failed"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {}
+}
